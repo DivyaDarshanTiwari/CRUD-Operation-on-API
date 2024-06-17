@@ -1,49 +1,40 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { JsonPipe } from '@angular/common';
+import { UserDataService } from '../../user-data.service';
+import { Api } from '../../api';
 
 @Component({
   selector: 'app-about',
   standalone: true,
   imports: [JsonPipe],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.css'
+  styleUrls: ['./about.component.css']
 })
-export class AboutComponent implements OnInit{
+export class AboutComponent implements OnInit {
 
-  public getJson:any;
-  public postJson: any;
+  public getJson: Api[] = [];
+  public postJson: Api | null = null;
+  public id: number | null = null;
 
-  url = "https://jsonplaceholder.typicode.com/posts/1";
-  constructor(private http:HttpClient) { }
+  constructor(private userDataService: UserDataService) { }
 
-  public data(){
-    let token = "sdfnlsdnflwnolfnnn"
-    let head_obj = new HttpHeaders().set("Authorization", `bearer ${token}`)// this is how you give authorization key in the get method
-    return this.http.get(this.url,{headers:head_obj}).subscribe((data) =>{
-      console.log(data)
-      this.getJson =data;
-
+  public data() {
+    this.userDataService.getdata().subscribe((data: Api[]) => {
+      console.log(data);
+      this.getJson = data;
     });
   }
 
-  public postdata(){
-    let token = "sdfnlsdnflwnolfnnn"
-    let head_obj = new HttpHeaders().set("Authorization", `bearer ${token}`)// this is how you give authorization key in the get method
-    return this.http.post('https://jsonplaceholder.typicode.com/posts',{
-      title: 'foo',
-      body: 'bar',
-      userId: 1,
-    },{headers:head_obj}).subscribe((data) =>{
-      console.log(data)
-      this.postJson =data;
-
+  public post1data() {
+    this.userDataService.postdata().subscribe((data: Api) => {
+      console.log(data);
+      this.postJson = data;
+      this.id = data.id;
     });
   }
 
   ngOnInit(): void {
     this.data();
-    this.postdata();
+    this.post1data();
   }
 }

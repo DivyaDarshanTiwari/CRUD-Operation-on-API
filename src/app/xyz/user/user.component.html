@@ -2,4 +2,7 @@
 <p>{{getJson | json}}</p>
 
 <h1>Put</h1>
-<p>{{putJson | json}}</p>
+<div  *ngFor="let item of getJson">
+    <span>{{item.name}} , {{item.email}}</span>
+</div>
+<button type="button" (click)="putdata()">Add</button>
