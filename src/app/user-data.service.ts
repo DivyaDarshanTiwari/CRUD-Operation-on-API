@@ -31,7 +31,7 @@ export class UserDataService {
   }
 
   putdata(): Observable<Api>{
-    let x = `${this.url}/6967279`
+    let x = `${this.url}/xxxx` //enter here the id of the json file object wholes value u want to change
     return this.http.put<Api>(x,{
       id: 0,
       name: "dddddddddddddddddddddddddd",
